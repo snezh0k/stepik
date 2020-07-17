@@ -19,6 +19,7 @@ public class Frontend extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } else {
             resp.setStatus(HttpServletResponse.SC_OK);
+
         }
 
         resp.getWriter().println(value);
