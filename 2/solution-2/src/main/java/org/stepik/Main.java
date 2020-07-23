@@ -6,9 +6,12 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.log.Logger;
 import org.stepik.accounts.AccountService;
 import org.stepik.accounts.UserProfile;
 import org.stepik.servlets.SessionsServlet;
+import org.stepik.servlets.SignInServlet;
+import org.stepik.servlets.SignUpServlet;
 import org.stepik.servlets.UsersServlet;
 
 public class Main {
@@ -20,6 +23,8 @@ public class Main {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(new UsersServlet(accountService)), "/api/v1/users");
         context.addServlet(new ServletHolder(new SessionsServlet(accountService)), "/api/v1/sessions");
+        context.addServlet(new ServletHolder(new SignUpServlet(accountService)), "/signup");
+        context.addServlet(new ServletHolder(new SignInServlet(accountService)), "/signin");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase("public_html");
@@ -31,6 +36,10 @@ public class Main {
         server.setHandler(handlers);
 
         server.start();
+
+        Logger logger = context.getLogger();
+        logger.info("Server started");
+
         server.join();
     }
 }
