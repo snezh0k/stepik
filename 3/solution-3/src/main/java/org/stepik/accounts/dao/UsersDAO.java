@@ -22,11 +22,12 @@ public class UsersDAO {
         return executor.execPreparedQuery("select * from users where login = ? and password = ?",
                 new Object[]{login, password},
                 resultSet -> {
-                    resultSet.next();
-                    return new User(
-                            resultSet.getLong("id"),
-                            resultSet.getString("login"),
-                            resultSet.getString("password"));
+                    if (resultSet.next())
+                        return new User(
+                                resultSet.getLong("id"),
+                                resultSet.getString("login"),
+                                resultSet.getString("password"));
+                    return null;
                 });
     }
 

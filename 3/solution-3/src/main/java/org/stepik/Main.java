@@ -9,6 +9,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.stepik.accounts.AccountService;
+import org.stepik.accounts.datasets.User;
 import org.stepik.servlets.SignInServlet;
 import org.stepik.servlets.SignUpServlet;
 
@@ -18,6 +19,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         AccountService accountService = new AccountService();
+        accountService.signUp(new User("alex", "alex"));
 
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         contextHandler.addServlet(new ServletHolder(new SignInServlet(accountService)), "/signin");
